@@ -1,0 +1,202 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+    @copyright  2026 Adebare Showemimo
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+}}
+{{!
+    @template format_grid/local/content/section
+
+    Grid format section card template.
+
+    Context variables required for this template:
+    * sectiontitle - Section name
+    * sectionsummary - Section summary text
+    * sectionimage - Image URL
+    * sectionurl - Link to section
+    * activitycount - Number of activities
+    * completionprogress - Completion percentage
+    * cardstyle - card, overlay, or minimal
+    * ishidden - Section is hidden
+    * sectionnumber - Section number
+
+    Example context (json):
+    {
+        "sectiontitle": "Introduction",
+        "sectionsummary": "Learn the basics...",
+        "sectionimage": "/path/to/image.jpg",
+        "sectionurl": "/course/section.php?id=123",
+        "activitycount": 5,
+        "completionprogress": 60,
+        "cardstyle": "card",
+        "sectionnumber": 1
+    }
+}}
+<li id="section-{{sectionnumber}}"
+    class="col section {{#ishidden}}hidden{{/ishidden}}"
+    data-section-id="{{id}}"
+    data-section-number="{{sectionnumber}}"
+    data-region="section-card"
+    data-for="section"
+    data-id="{{id}}"
+    data-number="{{sectionnumber}}"
+    data-sectionid="{{sectionnumber}}">
+<div class="format-grid-card format-grid-card--{{cardstyle}} {{#ishidden}}format-grid-card--hidden{{/ishidden}} {{#issection0}}format-grid-card--section0{{/issection0}}">
+
+    {{! Drag handle for section reordering (editing mode) - not for section 0 }}
+    {{^issection0}}
+        {{#controlmenu}}
+        <div class="format-grid-card__draghandle" data-for="section_title" data-id="{{id}}" data-number="{{sectionnumber}}">
+            <span class="draghandle visually-hidden">{{#str}}move, moodle{{/str}}</span>
+        </div>
+        {{/controlmenu}}
+    {{/issection0}}
+
+    {{! Section number badge (always visible on top-left) }}
+    <div class="format-grid-card__number-badge">
+        {{#issection0}}G{{/issection0}}{{^issection0}}{{sectionnumber}}{{/issection0}}
+    </div>
+
+    {{! Completed badge (top-right) }}
+    {{#iscomplete}}
+        <div class="format-grid-card__complete-badge"
+             aria-label="{{#str}}sectioncomplete, format_grid{{/str}}">
+            <span>{{#str}}sectioncomplete, format_grid{{/str}}</span>
+        </div>
+    {{/iscomplete}}
+
+    {{! Image container }}
+    <a href="{{sectionurl}}" class="format-grid-card__image-link" tabindex="-1" aria-hidden="true">
+        <div class="format-grid-card__image">
+            {{#hasimage}}
+                {{#hasdefaultimage}}
+                    <div class="format-grid-card__pattern" style="background-image: url('{{sectionimage}}');"></div>
+                {{/hasdefaultimage}}
+                {{^hasdefaultimage}}
+                    <img src="{{sectionimage}}" alt="" class="format-grid-card__img" loading="lazy">
+                {{/hasdefaultimage}}
+            {{/hasimage}}
+            {{^hasimage}}
+                <div class="format-grid-card__placeholder">
+                    <span class="format-grid-card__section-num">{{sectionnumber}}</span>
+                </div>
+            {{/hasimage}}
+
+            {{! Section badge (overlay style) }}
+            {{#isoverlaystyle}}
+                <div class="format-grid-card__overlay">
+                    {{#showsectiontitles}}
+                        <h3 class="format-grid-card__title-overlay">{{sectiontitle}}</h3>
+                    {{/showsectiontitles}}
+                    {{#hasprogress}}
+                        <div class="format-grid-card__progress-overlay">
+                            <span class="format-grid-card__progress-text">{{completionprogress}}%</span>
+                        </div>
+                    {{/hasprogress}}
+                </div>
+            {{/isoverlaystyle}}
+        </div>
+    </a>
+
+    {{! Content area with title/summary (card and minimal styles only) }}
+    {{^isoverlaystyle}}
+        <div class="format-grid-card__content">
+            {{#showsectiontitles}}
+                <h3 class="format-grid-card__title">
+                    <a href="{{sectionurl}}" class="format-grid-card__title-link">
+                        {{sectiontitle}}
+                    </a>
+                </h3>
+            {{/showsectiontitles}}
+
+            {{#showsectionsummary}}
+                {{#hassummary}}
+                    <p class="format-grid-card__summary">{{sectionsummary}}</p>
+                {{/hassummary}}
+            {{/showsectionsummary}}
+    {{/isoverlaystyle}}
+
+    {{! Meta section with activities count and completion info (all styles) }}
+    {{#isoverlaystyle}}
+        <div class="format-grid-card__content format-grid-card__content--overlay">
+    {{/isoverlaystyle}}
+        <div class="format-grid-card__meta">
+            {{#showactivitiescount}}
+                <span class="format-grid-card__activities">
+                    <i class="icon fa fa-graduation-cap fa-fw" aria-hidden="true"></i>
+                    <span>{{activitylabel}}</span>
+                </span>
+            {{/showactivitiescount}}
+        </div>
+
+        {{! Progress bar row (gated on showprogressbar option). }}
+        {{#completionenabled}}
+            {{#showprogressbar}}
+                <div class="format-grid-card__progress-row">
+                    <div class="format-grid-card__progress-bar"
+                         data-completion-complete="{{completioncomplete}}"
+                         data-completion-total="{{completiontotal}}">
+                        <div class="format-grid-card__progress-fill" style="width: {{completionprogress}}%;" role="progressbar" aria-valuenow="{{completionprogress}}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="format-grid-card__progress-percent">{{completionprogress}}%</div>
+                </div>
+            {{/showprogressbar}}
+
+            {{! Completion summary row: icon + text on the left, fraction pill on the right. }}
+            {{#showcompletionrow}}
+                <div class="format-grid-card__completion-row"
+                     data-state="{{#iscomplete}}complete{{/iscomplete}}{{#isinprogress}}in-progress{{/isinprogress}}{{#isnotstarted}}not-started{{/isnotstarted}}">
+                    <div class="format-grid-card__completion-text">
+                        <span class="format-grid-card__completion-icon
+                            {{#iscomplete}}format-grid-card__completion-icon--complete{{/iscomplete}}
+                            {{#isinprogress}}format-grid-card__completion-icon--in-progress{{/isinprogress}}
+                            {{#isnotstarted}}format-grid-card__completion-icon--not-started{{/isnotstarted}}"
+                            aria-hidden="true">
+                            <i class="fa fa-check"></i>
+                        </span>
+                        <span>{{#str}}activitiescomplete, format_grid, {"complete": {{rowcomplete}}, "total": {{rowtotal}}}{{/str}}</span>
+                    </div>
+                    <div class="format-grid-card__completion-count
+                        {{#iscomplete}}format-grid-card__completion-count--complete{{/iscomplete}}
+                        {{#isinprogress}}format-grid-card__completion-count--in-progress{{/isinprogress}}
+                        {{#isnotstarted}}format-grid-card__completion-count--not-started{{/isnotstarted}}">
+                        {{rowcomplete}}/{{rowtotal}}
+                    </div>
+                </div>
+            {{/showcompletionrow}}
+        {{/completionenabled}}
+    {{#isoverlaystyle}}
+        </div>
+    {{/isoverlaystyle}}
+    {{^isoverlaystyle}}
+        </div>
+    {{/isoverlaystyle}}
+
+    {{! Hidden badge }}
+    {{#ishidden}}
+        <div class="format-grid-card__hidden-badge">
+            {{#str}}hidden, core{{/str}}
+        </div>
+    {{/ishidden}}
+
+    {{! Control menu (editing mode) }}
+    {{#controlmenu}}
+        <div class="format-grid-card__controls">
+            {{> core_courseformat/local/content/section/controlmenu }}
+        </div>
+    {{/controlmenu}}
+</div>
+</li>

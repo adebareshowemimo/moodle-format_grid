@@ -1,0 +1,792 @@
+/**
+ * This file is part of Moodle - http://moodle.org/
+ *
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Grid format styles.
+ *
+ * @package    format_grid
+ * @copyright  2026 Adebare Showemimo
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/* =====================================================
+   Grid Container
+   ===================================================== */
+.format-grid-content {
+    padding: 0;
+}
+
+.format-grid-section0 {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--bs-light, #f8f9fa);
+    border-radius: 0.5rem;
+}
+
+/* Section number badge on top-left of card */
+.format-grid-card__number-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 50%;
+    z-index: 15;
+    backdrop-filter: blur(4px);
+}
+
+.format-grid-card:hover .format-grid-card__number-badge {
+    background: var(--bs-primary, #0d6efd);
+}
+
+/* Section 0 shown as a card */
+.format-grid-card--section0 {
+    border: 2px solid var(--bs-primary, #0d6efd);
+}
+
+.format-grid-card--section0 .format-grid-card__number-badge {
+    background: var(--bs-primary, #0d6efd);
+}
+
+.format-grid-card--section0 .format-grid-card__placeholder {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+}
+
+/* Layout uses Bootstrap .row + .row-cols-* on the <ul> and .col on each <li>. */
+
+/* =====================================================
+   Card Base Styles
+   ===================================================== */
+.format-grid-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bs-body-bg, #fff);
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Allow dropdown to escape card overflow when open */
+.format-grid-card:has(.dropdown.show) {
+    overflow: visible;
+}
+
+.format-grid-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.format-grid-card:focus-within {
+    outline: 2px solid var(--bs-primary, #0d6efd);
+    outline-offset: 2px;
+}
+
+/* Hidden sections */
+.format-grid-card--hidden {
+    opacity: 0.6;
+}
+
+.format-grid-card__hidden-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 1rem;
+    z-index: 10;
+}
+
+/* =====================================================
+   Card Image
+   ===================================================== */
+.format-grid-card__image-link,
+.format-grid-card__image-link:hover,
+.format-grid-card__image-link:focus,
+.format-grid-card__image-link:visited {
+    display: block;
+    text-decoration: none;
+}
+
+.format-grid-card__image {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Aspect ratios */
+.format-grid-cards[data-aspect="ratio-1-1"] .format-grid-card__image {
+    aspect-ratio: 1 / 1;
+}
+.format-grid-cards[data-aspect="ratio-4-3"] .format-grid-card__image,
+.format-grid-cards.aspect-4-3 .format-grid-card__image {
+    aspect-ratio: 4 / 3;
+}
+.format-grid-cards[data-aspect="ratio-16-9"] .format-grid-card__image,
+.format-grid-cards.aspect-16-9 .format-grid-card__image {
+    aspect-ratio: 16 / 9;
+}
+.format-grid-cards[data-aspect="ratio-21-9"] .format-grid-card__image,
+.format-grid-cards.aspect-21-9 .format-grid-card__image {
+    aspect-ratio: 21 / 9;
+}
+
+/* Default aspect ratio */
+.format-grid-card__image {
+    aspect-ratio: 16 / 9;
+}
+
+.format-grid-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.format-grid-card:hover .format-grid-card__img {
+    transform: scale(1.05);
+}
+
+.format-grid-card__pattern {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.format-grid-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.format-grid-card__section-num {
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* =====================================================
+   Card Content (card & minimal styles)
+   ===================================================== */
+.format-grid-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    flex-grow: 1;
+}
+
+.format-grid-card__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.format-grid-card__title-link,
+.format-grid-card__title-link:hover,
+.format-grid-card__title-link:focus,
+.format-grid-card__title-link:visited {
+    color: var(--bs-body-color, #212529);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.format-grid-card__title-link:hover {
+    color: var(--bs-primary, #0d6efd);
+}
+
+.format-grid-card__summary {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--bs-secondary-color, #6c757d);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.format-grid-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--bs-secondary-color, #6c757d);
+}
+
+.format-grid-card__activities,
+.format-grid-card__completion {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.format-grid-card__activities .icon,
+.format-grid-card__completion .icon {
+    width: 14px;
+    height: 14px;
+}
+
+/* Progress row: pill bar + percent label. */
+.format-grid-card__progress-row {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-top: 0.75rem;
+}
+
+.format-grid-card__progress-bar {
+    flex: 1 1 auto;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.format-grid-card__progress-fill {
+    height: 100%;
+    background: var(--format-grid-progress-color, #16a34a);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.format-grid-card__progress-percent {
+    flex: 0 0 auto;
+    min-width: 2.5rem;
+    color: var(--format-grid-progress-color, #16a34a);
+    font-size: 0.875rem;
+    font-weight: 800;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* =====================================================
+   Overlay Style
+   ===================================================== */
+.format-grid-card--overlay .format-grid-card__image {
+    aspect-ratio: 16 / 9;
+}
+
+.format-grid-card--overlay .format-grid-card__image-link {
+    display: block;
+    height: 100%;
+}
+
+.format-grid-card__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 1rem;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.1) 40%,
+        rgba(0, 0, 0, 0.6) 70%,
+        rgba(0, 0, 0, 0.85) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    transition: background 0.3s ease;
+}
+
+.format-grid-card--overlay:hover .format-grid-card__overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.2) 40%,
+        rgba(0, 0, 0, 0.7) 70%,
+        rgba(0, 0, 0, 0.9) 100%
+    );
+}
+
+.format-grid-card__title-overlay {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.3;
+    max-height: 3.9em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.format-grid-card__progress-overlay {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.format-grid-card__progress-text {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    backdrop-filter: blur(4px);
+}
+
+/* Overlay style card content area (activities count and completion info below image) */
+.format-grid-card--overlay .format-grid-card__content--overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    flex-grow: 1;
+    background: var(--bs-light, #f8f9fa);
+    border-top: 1px solid var(--bs-border-color-translucent, rgba(0, 0, 0, 0.06));
+}
+
+.format-grid-card--overlay .format-grid-card__meta {
+    margin-bottom: 0;
+}
+
+.format-grid-card--overlay .format-grid-card__progress-row {
+    margin-top: 0.5rem;
+}
+
+.format-grid-card--overlay .format-grid-card__completion-row {
+    margin-top: 0.5rem;
+}
+
+/* =====================================================
+   Minimal Style
+   ===================================================== */
+.format-grid-card--minimal {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.format-grid-card--minimal .format-grid-card__image {
+    aspect-ratio: 21 / 9;
+}
+
+.format-grid-card--minimal .format-grid-card__content {
+    padding: 0.75rem;
+}
+
+.format-grid-card--minimal .format-grid-card__summary {
+    display: none;
+}
+
+/* =====================================================
+   Control Menu (editing mode)
+   ===================================================== */
+.format-grid-card__controls {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 20;
+}
+
+.format-grid-card__draghandle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    cursor: move;
+}
+
+.format-grid-card__draghandle:active {
+    cursor: move;
+}
+
+.editing .section.dragging > .format-grid-card,
+.editing .format-grid-card.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.editing .format-grid-cards .dragover,
+.editing .format-grid-cards .section.dragover {
+    outline: 3px dashed var(--bs-primary, #0d6efd);
+    outline-offset: 4px;
+}
+
+.format-grid-card__controls .dropdown-toggle {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.format-grid-card__controls .dropdown-toggle:hover {
+    background: #fff;
+}
+
+.format-grid-card__controls .dropdown-menu {
+    z-index: 1050;
+    position: fixed;
+}
+
+.format-grid-card__controls.show,
+.format-grid-card__controls .dropdown.show {
+    z-index: 1060;
+}
+
+/* =====================================================
+   Add Section Button
+   ===================================================== */
+.format-grid-add-section {
+    margin-top: 2rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* =====================================================
+   Single Section View
+   ===================================================== */
+.format-grid-single-section {
+    padding: 1rem;
+}
+
+/* =====================================================
+   Editing Mode Enhancements
+   ===================================================== */
+.editing .format-grid-card {
+    cursor: default;
+}
+
+.editing .format-grid-card:hover {
+    transform: none;
+}
+
+/* Drag handle with proper move cursor */
+.editing .format-grid-card__draghandle {
+    cursor: move;
+}
+
+.editing .format-grid-card__draghandle.draggable {
+    cursor: move;
+}
+
+/* Drag and drop styles */
+.section.dragging > .format-grid-card,
+.format-grid-card.dragging {
+    opacity: 0.5;
+}
+
+.section.drag-over > .format-grid-card,
+.format-grid-card.drag-over {
+    border: 2px dashed var(--bs-primary, #0d6efd);
+}
+
+/* =====================================================
+   Dark Mode Support
+   ===================================================== */
+[data-bs-theme="dark"] .format-grid-card {
+    background: var(--bs-dark-bg-subtle, #2b3035);
+    border-color: var(--bs-border-color, #495057);
+}
+
+[data-bs-theme="dark"] .format-grid-card__placeholder {
+    background: linear-gradient(135deg, #434c5e 0%, #3b4252 100%);
+}
+
+[data-bs-theme="dark"] .format-grid-card__hidden-badge {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+[data-bs-theme="dark"] .format-grid-card__controls .dropdown-toggle {
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+}
+
+/* =====================================================
+   Print Styles
+   ===================================================== */
+@media print {
+    .format-grid-cards {
+        display: block;
+    }
+
+    .format-grid-card {
+        page-break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+
+    .format-grid-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* =====================================================
+   Section Completion Indicators
+   ===================================================== */
+
+/* Tile "Section complete" badge (top-right of card image). */
+.format-grid-card__complete-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--format-grid-badge-bg, #28a745);
+    color: var(--format-grid-badge-text, #ffffff);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.format-grid-card__complete-badge .icon {
+    color: var(--format-grid-badge-text, #ffffff);
+    width: 12px;
+    height: 12px;
+    margin: 0;
+}
+
+/* Completion summary row: icon + descriptive text on the left, fraction pill on the right. */
+.format-grid-card__completion-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.format-grid-card__completion-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4b5563;
+    font-size: 0.875rem;
+    font-weight: 500;
+    min-width: 0;
+}
+
+.format-grid-card__completion-text > span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.format-grid-card__completion-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    flex: 0 0 auto;
+    background: #9ca3af;
+}
+
+.format-grid-card__completion-icon.format-grid-card__completion-icon--not-started {
+    background: var(--format-grid-not-started-color, #9ca3af);
+}
+
+.format-grid-card__completion-icon.format-grid-card__completion-icon--in-progress {
+    background: var(--format-grid-in-progress-color, #f59e0b);
+}
+
+.format-grid-card__completion-icon.format-grid-card__completion-icon--complete {
+    background: var(--format-grid-complete-color, #22c55e);
+}
+
+/* Fraction pill (e.g. 5/5) on the right side of the completion row. */
+.format-grid-card__completion-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+
+.format-grid-card__completion-count.format-grid-card__completion-count--not-started {
+    background: color-mix(in srgb, var(--format-grid-not-started-color, #9ca3af) 12%, white);
+    border-color: color-mix(in srgb, var(--format-grid-not-started-color, #9ca3af) 50%, white);
+    color: var(--format-grid-not-started-color, #6b7280);
+}
+
+.format-grid-card__completion-count.format-grid-card__completion-count--in-progress {
+    background: color-mix(in srgb, var(--format-grid-in-progress-color, #f59e0b) 12%, white);
+    border-color: color-mix(in srgb, var(--format-grid-in-progress-color, #f59e0b) 50%, white);
+    color: var(--format-grid-in-progress-color, #d97706);
+}
+
+.format-grid-card__completion-count.format-grid-card__completion-count--complete {
+    background: color-mix(in srgb, var(--format-grid-complete-color, #22c55e) 12%, white);
+    border-color: color-mix(in srgb, var(--format-grid-complete-color, #22c55e) 50%, white);
+    color: var(--format-grid-complete-color, #16a34a);
+}
+
+@media (max-width: 480px) {
+    .format-grid-card__completion-row {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+/* Course index left-menu checkmark next to section names. */
+.format-grid-section-complete {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.format-grid-section-complete .icon {
+    color: #28a745;
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+/* =====================================================
+   Activity-page Previous / Next navigation
+   ===================================================== */
+
+.format-grid-activity-nav {
+    border-top: 1px solid var(--bs-border-color, #e5e7eb);
+    padding-top: 1.25rem;
+}
+
+.format-grid-activity-nav__row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.format-grid-activity-nav__row > .btn {
+    flex: 1 1 calc(50% - 0.4rem);
+    min-width: 0;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.format-grid-activity-nav__next {
+    text-align: right;
+    justify-content: flex-end;
+}
+
+.format-grid-activity-nav__label {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1.2;
+    min-width: 0;
+}
+
+.format-grid-activity-nav__direction {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+    font-weight: 700;
+}
+
+.format-grid-activity-nav__name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.format-grid-activity-nav__spacer {
+    flex: 1 1 calc(50% - 0.4rem);
+}
+
+/* Locked Next button — muted/grey gradient + lock cursor.
+   The link still receives clicks so the popup can fire. */
+.format-grid-activity-nav__next--locked {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    border-color: #64748b;
+    color: #ffffff;
+    cursor: not-allowed;
+    opacity: 0.95;
+}
+
+.format-grid-activity-nav__next--locked:hover,
+.format-grid-activity-nav__next--locked:focus {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    color: #ffffff;
+    box-shadow: none;
+    transform: none;
+}
+
+@media (max-width: 575.98px) {
+    .format-grid-activity-nav__row > .btn,
+    .format-grid-activity-nav__spacer {
+        flex: 1 1 100%;
+    }
+    .format-grid-activity-nav__next {
+        text-align: left;
+        justify-content: flex-start;
+    }
+    .format-grid-activity-nav__name {
+        white-space: normal;
+    }
+}

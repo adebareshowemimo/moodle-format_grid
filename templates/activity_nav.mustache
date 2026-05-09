@@ -1,0 +1,62 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+    @copyright  2026 Adebare Showemimo
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+}}
+{{!
+    @template format_grid/activity_nav
+
+    Previous / Next activity navigation injected at the bottom of activity
+    view pages in Grid-format courses.
+
+    Example context (json):
+    {
+        "showicons": true,
+        "showname": true,
+        "islocked": false,
+        "prev": {"url": "https://example.org/mod/page/view.php?id=11", "name": "Welcome video"},
+        "next": {"url": "https://example.org/mod/page/view.php?id=13", "name": "Watch the intro"}
+    }
+}}
+<nav class="format-grid-activity-nav my-4" aria-label="{{#str}}activitynav_aria, format_grid{{/str}}">
+    <div class="format-grid-activity-nav__row">
+        {{#prev}}
+            <a href="{{url}}" class="btn btn-outline-secondary format-grid-activity-nav__prev">
+                {{#showicons}}<i class="fa fa-arrow-left me-2" aria-hidden="true"></i>{{/showicons}}
+                <span class="format-grid-activity-nav__label">
+                    <span class="format-grid-activity-nav__direction">{{#str}}activitynav_prev, format_grid{{/str}}</span>
+                    {{#showname}}<span class="format-grid-activity-nav__name">{{name}}</span>{{/showname}}
+                </span>
+            </a>
+        {{/prev}}
+        {{^prev}}<span class="format-grid-activity-nav__spacer" aria-hidden="true"></span>{{/prev}}
+
+        {{#next}}
+            <a href="{{url}}"
+               class="btn btn-primary format-grid-activity-nav__next {{#islocked}}format-grid-activity-nav__next--locked{{/islocked}}"
+               {{#islocked}}data-fg-nav-locked="1" aria-disabled="true"{{/islocked}}>
+                <span class="format-grid-activity-nav__label">
+                    <span class="format-grid-activity-nav__direction">{{#str}}activitynav_next, format_grid{{/str}}</span>
+                    {{#showname}}<span class="format-grid-activity-nav__name">{{name}}</span>{{/showname}}
+                </span>
+                {{#islocked}}<i class="fa fa-lock ms-2" aria-hidden="true"></i>{{/islocked}}
+                {{^islocked}}{{#showicons}}<i class="fa fa-arrow-right ms-2" aria-hidden="true"></i>{{/showicons}}{{/islocked}}
+            </a>
+        {{/next}}
+        {{^next}}<span class="format-grid-activity-nav__spacer" aria-hidden="true"></span>{{/next}}
+    </div>
+</nav>
