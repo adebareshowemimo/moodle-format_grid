@@ -44,9 +44,9 @@ trait section_completion_trait {
      *
      * Mirrors mod_endofsection\local\sectionflow_manager::collect_section_cms_recursive.
      *
-     * @param section_info|stdClass $section
-     * @param course_modinfo $modinfo
-     * @param array<int,bool> $visited keyed by section id to prevent loops
+     * @param section_info|stdClass $section section to inspect
+     * @param course_modinfo $modinfo course module information
+     * @param array $visited keyed by section id to prevent loops
      * @return cm_info[] keyed by cm id
      */
     protected function collect_section_cms($section, course_modinfo $modinfo, array &$visited = []): array {
@@ -116,10 +116,10 @@ trait section_completion_trait {
     /**
      * Calculate section completion progress.
      *
-     * @param stdClass|section_info $section
-     * @param course_modinfo $modinfo
-     * @param stdClass $course
-     * @return array{complete:int,total:int,progress:int,iscomplete:bool,activitycount:int}
+     * @param stdClass $course course record
+     * @param stdClass|section_info $section section to inspect
+     * @param course_modinfo $modinfo course module information
+     * @return array completion data
      */
     protected function compute_section_completion($course, $section, $modinfo): array {
         global $CFG;
