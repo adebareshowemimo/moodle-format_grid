@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out plugin
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install packaging tools
+        run: sudo apt-get update && sudo apt-get install -y rsync zip
+
+      - name: Stage plugin folder
+        run: |
+          mkdir -p dist/grid
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='dist' \
+            --exclude='node_modules' \
+            --exclude='vendor' \
+            --exclude='.phpunit.result.cache' \
+            --exclude='*.zip' \
+            ./ dist/grid/
+
+      - name: Build ZIP
+        id: zip
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          FILENAME="grid-${VERSION}.zip"
+          cd dist
+          zip -r "../${FILENAME}" grid
+          cd ..
+          sha256sum "${FILENAME}" > "${FILENAME}.sha256"
+          echo "filename=${FILENAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ steps.zip.outputs.filename }}
+            ${{ steps.zip.outputs.filename }}.sha256
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
+
