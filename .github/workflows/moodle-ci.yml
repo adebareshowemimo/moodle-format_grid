@@ -45,12 +45,15 @@ jobs:
           - php: '8.1'
             moodle-branch: MOODLE_405_STABLE
             database: pgsql
+            db-user: postgres
           - php: '8.3'
             moodle-branch: MOODLE_502_STABLE
             database: pgsql
+            db-user: postgres
           - php: '8.3'
             moodle-branch: MOODLE_502_STABLE
             database: mariadb
+            db-user: root
 
     steps:
       - name: Check out plugin
@@ -80,7 +83,7 @@ jobs:
           echo "NVM_DIR=$HOME/.nvm" >> "$GITHUB_ENV"
 
       - name: Install Moodle
-        run: moodle-plugin-ci install --plugin "$GITHUB_WORKSPACE/plugin" --db-host=127.0.0.1
+        run: moodle-plugin-ci install --plugin "$GITHUB_WORKSPACE/plugin" --db-host=127.0.0.1 --db-user="${{ matrix.db-user }}"
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
