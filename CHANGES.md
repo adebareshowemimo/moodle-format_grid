@@ -1,3 +1,10 @@
+# Grid format v1.5.3
+
+## Release notes
+
+- Expanded the README with a detailed review of the plugin's actual features, course settings, section image behavior, completion support, and activity navigation.
+- Kept Moodle 4.5+ as the minimum supported Moodle version.
+
 # Grid format v1.5.2
 
 ## Release notes
