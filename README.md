@@ -1,6 +1,6 @@
-# Grid format
+# Grid - Modern Course Format
 
-Grid format is a visual Moodle course format for courses that are easier to browse as a set of section cards instead of a long topic list. It keeps Moodle's standard section editing and single-section activity pages, while replacing the course landing page with a responsive grid of cards that can show images, summaries, activity counts, and learner progress.
+Grid - Modern Course Format is a visual Moodle course format for courses that are easier to browse as a set of section cards instead of a long topic list. It keeps Moodle's standard section editing and single-section activity pages, while replacing the course landing page with a responsive grid of cards that can show images, summaries, activity counts, and learner progress.
 
 The format is useful for course home pages, self-paced learning paths, media-heavy courses, and courses where learners need a clear overview of each section before opening it.
 
@@ -21,13 +21,13 @@ The format is useful for course home pages, self-paced learning paths, media-hea
 - Course index support with optional default collapsed state.
 - Course-index completion checkmarks for completed sections.
 - Optional hiding of Moodle's secondary course navigation for learners.
-- Previous and Next activity navigation injected into activity pages for Grid-format courses.
+- Previous and Next activity navigation injected into activity pages for Grid - Modern Course Format courses.
 - Completion-aware Next button locking on activity pages when the current activity is not complete.
 - Editing support for section controls, drag handles, add section, bulk edit tools, and Moodle course-format AJAX behavior.
 
 ## Course Settings
 
-Teachers can configure the format from the course settings page after choosing **Grid format**.
+Teachers can configure the format from the course settings page after choosing **Grid - Modern Course Format**.
 
 Available course-level options include:
 
@@ -45,7 +45,7 @@ Available course-level options include:
 
 ## Section Images
 
-Each section can have its own cover image. Course editors can upload a section image from the section edit form. The plugin stores section image references in its own `format_grid_images` table and serves the files through Moodle's plugin file API.
+Each section can have its own cover image. Course editors can upload a section image from the section edit form. The plugin stores section image references in its own `format_moderngrid_images` table and serves the files through Moodle's plugin file API.
 
 Image selection works in this order:
 
@@ -57,7 +57,7 @@ Recommended image size: `800x450` pixels for the default 16:9 layout.
 
 ## Completion And Progress
 
-Grid format uses Moodle completion data to show learner progress at section level. Each card can show:
+Grid - Modern Course Format uses Moodle completion data to show learner progress at section level. Each card can show:
 
 - a percentage progress bar;
 - a completion summary row;
@@ -76,7 +76,7 @@ Administrators can configure the colours used for:
 
 ## Activity Navigation
 
-On activity view pages inside a Grid-format course, the plugin can add Previous and Next navigation at the bottom of the page. Navigation respects Moodle visibility and skips module types where automatic next/previous movement can be disruptive, including quiz, assignment, subsection, and end-of-section activities.
+On activity view pages inside a Grid - Modern Course Format course, the plugin can add Previous and Next navigation at the bottom of the page. Navigation respects Moodle visibility and skips module types where automatic next/previous movement can be disruptive, including quiz, assignment, subsection, and end-of-section activities.
 
 When the current activity has completion tracking and is not complete, the Next action can be presented as locked. Learners see a completion reminder instead of being moved forward before finishing the current activity.
 
@@ -88,22 +88,22 @@ When the current activity has completion tracking and is not complete, the Next 
 
 ## Installation
 
-1. Copy this plugin to `course/format/grid`.
+1. Copy this plugin to `course/format/moderngrid`.
 2. Visit **Site administration** to complete the Moodle plugin installation.
 3. Go to a course settings page.
-4. Set **Course format** to **Grid format**.
+4. Set **Course format** to **Grid - Modern Course Format**.
 5. Configure the grid display options for that course.
 
 ## Repository
 
 The Moodle Plugins Directory recommends the repository naming pattern `moodle-{plugintype}_{pluginname}`. This plugin is published as:
 
-https://github.com/adebareshowemimo/moodle-format_grid
+https://github.com/adebareshowemimo/moodle-format_moderngrid
 
-The Moodle component name remains:
+The Moodle component name is:
 
 ```text
-format_grid
+format_moderngrid
 ```
 
 ## License

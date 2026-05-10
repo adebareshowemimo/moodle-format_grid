@@ -17,7 +17,7 @@
 /**
  * Grid course format - renders course as responsive grid cards.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,7 +35,7 @@ $context = context_course::instance($course->id);
 // Make sure section 0 is created.
 course_create_sections_if_missing($course, 0);
 
-$renderer = $PAGE->get_renderer('format_grid');
+$renderer = $PAGE->get_renderer('format_moderngrid');
 
 if (!is_null($displaysection)) {
     $format->set_sectionnum($displaysection);

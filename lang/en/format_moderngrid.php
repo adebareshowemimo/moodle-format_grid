@@ -17,7 +17,7 @@
 /**
  * Language strings for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -74,15 +74,15 @@ $string['notrackedactivities'] = 'No completion tracked';
 $string['notstartedcolor'] = 'Not started colour';
 $string['notstartedcolor_desc'] = 'Used when a section has tracked activities but none completed yet (gray by default).';
 $string['opensection'] = 'Open section';
-$string['page-course-view-grid'] = 'Any course main page in grid format';
-$string['page-course-view-grid-x'] = 'Any course page in grid format';
+$string['page-course-view-moderngrid'] = 'Any course main page in Grid - Modern Course Format';
+$string['page-course-view-moderngrid-x'] = 'Any course page in Grid - Modern Course Format';
 $string['plugin_description'] = 'A modern, responsive grid layout displaying course sections as beautiful cards with cover images.';
-$string['pluginname'] = 'Grid format';
+$string['pluginname'] = 'Grid - Modern Course Format';
 $string['privacy:metadata'] = 'The Grid format plugin stores section images uploaded by course editors.';
-$string['privacy:metadata:format_grid_images'] = 'Stores references to section images.';
-$string['privacy:metadata:format_grid_images:courseid'] = 'The course ID.';
-$string['privacy:metadata:format_grid_images:image'] = 'The image file reference.';
-$string['privacy:metadata:format_grid_images:sectionid'] = 'The section ID.';
+$string['privacy:metadata:format_moderngrid_images'] = 'Stores references to section images.';
+$string['privacy:metadata:format_moderngrid_images:courseid'] = 'The course ID.';
+$string['privacy:metadata:format_moderngrid_images:image'] = 'The image file reference.';
+$string['privacy:metadata:format_moderngrid_images:sectionid'] = 'The section ID.';
 $string['progressbarcolor'] = 'Progress bar colour';
 $string['progressbarcolor_desc'] = 'Fill colour of the section completion progress bar at the bottom of each card.';
 $string['section0display'] = 'General section display';

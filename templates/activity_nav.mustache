@@ -18,7 +18,7 @@
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 }}
 {{!
-    @template format_grid/activity_nav
+    @template format_moderngrid/activity_nav
 
     Previous / Next activity navigation injected at the bottom of activity
     view pages in Grid-format courses.
@@ -32,13 +32,13 @@
         "next": {"url": "https://example.org/mod/page/view.php?id=13", "name": "Watch the intro"}
     }
 }}
-<nav class="format-grid-activity-nav my-4" aria-label="{{#str}}activitynav_aria, format_grid{{/str}}">
+<nav class="format-grid-activity-nav my-4" aria-label="{{#str}}activitynav_aria, format_moderngrid{{/str}}">
     <div class="format-grid-activity-nav__row">
         {{#prev}}
             <a href="{{url}}" class="btn btn-outline-secondary format-grid-activity-nav__prev">
                 {{#showicons}}<i class="fa fa-arrow-left me-2" aria-hidden="true"></i>{{/showicons}}
                 <span class="format-grid-activity-nav__label">
-                    <span class="format-grid-activity-nav__direction">{{#str}}activitynav_prev, format_grid{{/str}}</span>
+                    <span class="format-grid-activity-nav__direction">{{#str}}activitynav_prev, format_moderngrid{{/str}}</span>
                     {{#showname}}<span class="format-grid-activity-nav__name">{{name}}</span>{{/showname}}
                 </span>
             </a>
@@ -50,7 +50,7 @@
                class="btn btn-primary format-grid-activity-nav__next {{#islocked}}format-grid-activity-nav__next--locked{{/islocked}}"
                {{#islocked}}data-fg-nav-locked="1" aria-disabled="true"{{/islocked}}>
                 <span class="format-grid-activity-nav__label">
-                    <span class="format-grid-activity-nav__direction">{{#str}}activitynav_next, format_grid{{/str}}</span>
+                    <span class="format-grid-activity-nav__direction">{{#str}}activitynav_next, format_moderngrid{{/str}}</span>
                     {{#showname}}<span class="format-grid-activity-nav__name">{{name}}</span>{{/showname}}
                 </span>
                 {{#islocked}}<i class="fa fa-lock ms-2" aria-hidden="true"></i>{{/islocked}}

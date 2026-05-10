@@ -17,15 +17,15 @@
 /**
  * Section output class for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid\output\courseformat\content;
+namespace format_moderngrid\output\courseformat\content;
 
 use core_courseformat\output\local\content\section as section_base;
-use format_grid\output\courseformat\section_completion_trait;
+use format_moderngrid\output\courseformat\section_completion_trait;
 use stdClass;
 use renderer_base;
 use completion_info;
@@ -33,7 +33,7 @@ use completion_info;
 /**
  * Section output class for the Grid format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -55,7 +55,7 @@ class section extends section_base {
             return 'core_courseformat/local/content/section';
         }
         // In grid view, use the card template.
-        return 'format_grid/local/content/section';
+        return 'format_moderngrid/local/content/section';
     }
 
     /**
@@ -137,8 +137,8 @@ class section extends section_base {
         $data->activitycount = $activitycount;
         $data->hasactivities = $activitycount > 0;
         $data->activitylabel = ($activitycount == 1)
-            ? get_string('sectionactivities_singular', 'format_grid', $activitycount)
-            : get_string('sectionactivities', 'format_grid', $activitycount);
+            ? get_string('sectionactivities_singular', 'format_moderngrid', $activitycount)
+            : get_string('sectionactivities', 'format_moderngrid', $activitycount);
 
         // Completion progress.
         require_once($CFG->libdir . '/completionlib.php');

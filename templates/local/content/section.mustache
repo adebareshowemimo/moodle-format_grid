@@ -18,7 +18,7 @@
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 }}
 {{!
-    @template format_grid/local/content/section
+    @template format_moderngrid/local/content/section
 
     Grid format section card template.
 
@@ -73,8 +73,8 @@
     {{! Completed badge (top-right) }}
     {{#iscomplete}}
         <div class="format-grid-card__complete-badge"
-             aria-label="{{#str}}sectioncomplete, format_grid{{/str}}">
-            <span>{{#str}}sectioncomplete, format_grid{{/str}}</span>
+             aria-label="{{#str}}sectioncomplete, format_moderngrid{{/str}}">
+            <span>{{#str}}sectioncomplete, format_moderngrid{{/str}}</span>
         </div>
     {{/iscomplete}}
 
@@ -167,7 +167,7 @@
                             aria-hidden="true">
                             <i class="fa fa-check"></i>
                         </span>
-                        <span>{{#str}}activitiescomplete, format_grid, {"complete": {{rowcomplete}}, "total": {{rowtotal}}}{{/str}}</span>
+                        <span>{{#str}}activitiescomplete, format_moderngrid, {"complete": {{rowcomplete}}, "total": {{rowtotal}}}{{/str}}</span>
                     </div>
                     <div class="format-grid-card__completion-count
                         {{#iscomplete}}format-grid-card__completion-count--complete{{/iscomplete}}

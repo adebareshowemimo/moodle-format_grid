@@ -17,12 +17,12 @@
 /**
  * Section control menu for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid\output\courseformat\content\section;
+namespace format_moderngrid\output\courseformat\content\section;
 
 use core_courseformat\output\local\content\section\controlmenu as controlmenu_base;
 use core\output\action_menu\link;
@@ -35,7 +35,7 @@ use core\url;
  *
  * Adds a "Section image" option to the section control menu.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -81,7 +81,7 @@ class controlmenu extends controlmenu_base {
         }
 
         $url = new url(
-            '/course/format/grid/sectionimage.php',
+            '/course/format/moderngrid/sectionimage.php',
             [
                 'id' => $this->section->id,
                 'courseid' => $this->format->get_courseid(),
@@ -91,7 +91,7 @@ class controlmenu extends controlmenu_base {
         return new link_secondary(
             url: $url,
             icon: new pix_icon('e/insert_edit_image', ''),
-            text: get_string('sectionimage', 'format_grid'),
+            text: get_string('sectionimage', 'format_moderngrid'),
             attributes: ['class' => 'sectionimage'],
         );
     }

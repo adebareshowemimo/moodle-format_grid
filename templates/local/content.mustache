@@ -18,7 +18,7 @@
     @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 }}
 {{!
-    @template format_grid/local/content
+    @template format_moderngrid/local/content
 
     Grid format main content template.
 
@@ -79,11 +79,11 @@
                 {{! Show section 0 as card only if section0ascard is true }}
                 {{#issection0}}
                     {{#section0ascard}}
-                        {{> format_grid/local/content/section }}
+                        {{> format_moderngrid/local/content/section }}
                     {{/section0ascard}}
                 {{/issection0}}
                 {{^issection0}}
-                    {{> format_grid/local/content/section }}
+                    {{> format_moderngrid/local/content/section }}
                 {{/issection0}}
             {{/sections}}
         </ul>

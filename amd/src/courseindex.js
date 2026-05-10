@@ -20,7 +20,7 @@
  * persisting the state to user preferences, so users can
  * still toggle it open during their session.
  *
- * @module     format_grid/courseindex
+ * @module     format_moderngrid/courseindex
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

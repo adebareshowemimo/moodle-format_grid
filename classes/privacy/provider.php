@@ -15,25 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy provider for format_grid.
+ * Privacy provider for format_moderngrid.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid\privacy;
+namespace format_moderngrid\privacy;
 
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\writer;
 
 /**
- * Privacy provider implementation for format_grid.
+ * Privacy provider implementation for format_moderngrid.
  *
  * The grid format does not store any personal user data.
  * It only stores course section images which are not personal data.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

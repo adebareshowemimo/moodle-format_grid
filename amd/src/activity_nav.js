@@ -16,7 +16,7 @@
 /**
  * Click-intercept for the locked Next button in the Grid-format activity nav.
  *
- * @module     format_grid/activity_nav
+ * @module     format_moderngrid/activity_nav
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,7 +34,7 @@ const LOCKED_SELECTOR = '[data-fg-nav-locked="1"]';
  * @returns {Promise<string>}
  */
 const buildBody = async (incomplete) => {
-    const intro = await getString('activitynav_locked_message', 'format_grid');
+    const intro = await getString('activitynav_locked_message', 'format_moderngrid');
     const items = incomplete.map((name) => `<li>${name}</li>`).join('');
     return `<p>${intro}</p><ul class="mb-0">${items}</ul>`;
 };
@@ -60,7 +60,7 @@ export const init = (config = {}) => {
             e.preventDefault();
             e.stopPropagation();
             const [title, body] = await Promise.all([
-                getString('activitynav_locked_title', 'format_grid'),
+                getString('activitynav_locked_title', 'format_moderngrid'),
                 buildBody(incomplete),
             ]);
             Notification.alert(title, body);

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace format_grid;
+namespace format_moderngrid;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -24,14 +24,14 @@ require_once($CFG->dirroot . '/course/lib.php');
 /**
  * Grid course format related unit tests.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @covers     \format_grid
+ * @covers     \format_moderngrid
  */
-final class format_grid_test extends \advanced_testcase {
+final class format_moderngrid_test extends \advanced_testcase {
     /**
-     * Tests for format_grid::get_section_name method with default section names.
+     * Tests for format_moderngrid::get_section_name method with default section names.
      *
      * @return void
      */
@@ -43,7 +43,7 @@ final class format_grid_test extends \advanced_testcase {
         $generator = $this->getDataGenerator();
         $numsections = 5;
         $course = $generator->create_course(
-            ['numsections' => $numsections, 'format' => 'grid'],
+            ['numsections' => $numsections, 'format' => 'moderngrid'],
             ['createsections' => true]
         );
 
@@ -59,7 +59,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid::get_section_name method with modified section names.
+     * Tests for format_moderngrid::get_section_name method with modified section names.
      *
      * @return void
      */
@@ -71,7 +71,7 @@ final class format_grid_test extends \advanced_testcase {
         $generator = $this->getDataGenerator();
         $numsections = 5;
         $course = $generator->create_course(
-            ['numsections' => $numsections, 'format' => 'grid'],
+            ['numsections' => $numsections, 'format' => 'moderngrid'],
             ['createsections' => true]
         );
 
@@ -95,7 +95,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid::get_default_section_name.
+     * Tests for format_moderngrid::get_default_section_name.
      *
      * @return void
      */
@@ -107,7 +107,7 @@ final class format_grid_test extends \advanced_testcase {
         $generator = $this->getDataGenerator();
         $numsections = 5;
         $course = $generator->create_course(
-            ['numsections' => $numsections, 'format' => 'grid'],
+            ['numsections' => $numsections, 'format' => 'moderngrid'],
             ['createsections' => true]
         );
 
@@ -118,17 +118,90 @@ final class format_grid_test extends \advanced_testcase {
         $courseformat = course_get_format($course);
         foreach ($coursesections as $section) {
             if ($section->section == 0) {
-                $sectionname = get_string('section0name', 'format_grid');
+                $sectionname = get_string('section0name', 'format_moderngrid');
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             } else {
-                $sectionname = get_string('sectionname', 'format_grid') . ' ' . $section->section;
+                $sectionname = get_string('sectionname', 'format_moderngrid') . ' ' . $section->section;
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             }
         }
     }
 
     /**
-     * Tests for format_grid::course_format_options.
+     * Test web service updating section name.
+     *
+     * @return void
+     */
+    public function test_update_inplace_editable(): void {
+        global $CFG, $DB;
+
+        require_once($CFG->dirroot . '/lib/external/externallib.php');
+
+        $this->resetAfterTest();
+        $user = $this->getDataGenerator()->create_user();
+        $this->setUser($user);
+        $course = $this->getDataGenerator()->create_course(
+            ['numsections' => 5, 'format' => 'moderngrid'],
+            ['createsections' => true]
+        );
+        $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 2]);
+
+        // Call webservice without necessary permissions.
+        try {
+            \core_external::update_inplace_editable('format_moderngrid', 'sectionname', $section->id, 'New section name');
+            $this->fail('Exception expected');
+        } catch (\moodle_exception $e) {
+            $this->assertEquals('Course or activity not accessible. (Not enrolled)', $e->getMessage());
+        }
+
+        // Change to teacher and make sure that section name can be updated using update_inplace_editable().
+        $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
+        $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
+
+        $res = \core_external::update_inplace_editable('format_moderngrid', 'sectionname', $section->id, 'New section name');
+        $res = \core_external\external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
+        $this->assertEquals('New section name', $res['value']);
+        $this->assertEquals('New section name', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
+    }
+
+    /**
+     * Test callback updating section name.
+     *
+     * @return void
+     */
+    public function test_inplace_editable(): void {
+        global $DB, $PAGE;
+
+        $this->resetAfterTest();
+        $user = $this->getDataGenerator()->create_user();
+        $course = $this->getDataGenerator()->create_course(
+            ['numsections' => 5, 'format' => 'moderngrid'],
+            ['createsections' => true]
+        );
+        $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
+        $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
+        $this->setUser($user);
+
+        $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 2]);
+
+        // Call callback format_moderngrid_inplace_editable() directly.
+        $tmpl = component_callback('format_moderngrid', 'inplace_editable', ['sectionname', $section->id, 'Rename me again']);
+        $this->assertInstanceOf('core\output\inplace_editable', $tmpl);
+        $res = $tmpl->export_for_template($PAGE->get_renderer('core'));
+        $this->assertEquals('Rename me again', $res['value']);
+        $this->assertEquals('Rename me again', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
+
+        // Try updating using callback from a mismatching course format.
+        try {
+            component_callback('format_topics', 'inplace_editable', ['sectionname', $section->id, 'New name']);
+            $this->fail('Exception expected');
+        } catch (\moodle_exception $e) {
+            $this->assertEquals(1, preg_match('/^Can\'t find data record in database/', $e->getMessage()));
+        }
+    }
+
+    /**
+     * Tests for format_moderngrid::course_format_options.
      *
      * @return void
      */
@@ -136,7 +209,7 @@ final class format_grid_test extends \advanced_testcase {
         $this->resetAfterTest(true);
 
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['format' => 'grid']);
+        $course = $generator->create_course(['format' => 'moderngrid']);
 
         $courseformat = course_get_format($course);
         $options = $courseformat->get_format_options();
@@ -159,7 +232,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid::course_format_options with custom values.
+     * Tests for format_moderngrid::course_format_options with custom values.
      *
      * @return void
      */
@@ -168,7 +241,7 @@ final class format_grid_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course([
-            'format' => 'grid',
+            'format' => 'moderngrid',
             'gridcolumns' => 4,
             'sectioncardstyle' => 'overlay',
             'imageaspectratio' => '4:3',
@@ -184,7 +257,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid::get_section_image_url returns null when no image.
+     * Tests for format_moderngrid::get_section_image_url returns null when no image.
      *
      * @return void
      */
@@ -194,12 +267,12 @@ final class format_grid_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(
-            ['numsections' => 3, 'format' => 'grid'],
+            ['numsections' => 3, 'format' => 'moderngrid'],
             ['createsections' => true]
         );
 
         $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 1]);
-        /** @var \format_grid $courseformat */
+        /** @var \format_moderngrid $courseformat */
         $courseformat = course_get_format($course);
 
         // No image uploaded - should return null (then fallback will handle it).
@@ -208,7 +281,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid::get_section_default_image returns data URI.
+     * Tests for format_moderngrid::get_section_default_image returns data URI.
      *
      * @return void
      */
@@ -218,12 +291,12 @@ final class format_grid_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(
-            ['numsections' => 3, 'format' => 'grid'],
+            ['numsections' => 3, 'format' => 'moderngrid'],
             ['createsections' => true]
         );
 
         $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 1]);
-        /** @var \format_grid $courseformat */
+        /** @var \format_moderngrid $courseformat */
         $courseformat = course_get_format($course);
 
         // Default image should return a data URI (GeoPattern).
@@ -233,7 +306,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid::get_section_default_image returns unique images.
+     * Tests for format_moderngrid::get_section_default_image returns unique images.
      *
      * @return void
      */
@@ -243,13 +316,13 @@ final class format_grid_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(
-            ['numsections' => 3, 'format' => 'grid'],
+            ['numsections' => 3, 'format' => 'moderngrid'],
             ['createsections' => true]
         );
 
         $section1 = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 1]);
         $section2 = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 2]);
-        /** @var \format_grid $courseformat */
+        /** @var \format_moderngrid $courseformat */
         $courseformat = course_get_format($course);
 
         // Each section should get a unique pattern.
@@ -260,7 +333,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid uses correct renderer.
+     * Tests for format_moderngrid uses correct renderer.
      *
      * @return void
      */
@@ -268,7 +341,7 @@ final class format_grid_test extends \advanced_testcase {
         $this->resetAfterTest(true);
 
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['format' => 'grid']);
+        $course = $generator->create_course(['format' => 'moderngrid']);
 
         $courseformat = course_get_format($course);
 
@@ -277,7 +350,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid supports ajax.
+     * Tests for format_moderngrid supports ajax.
      *
      * @return void
      */
@@ -285,7 +358,7 @@ final class format_grid_test extends \advanced_testcase {
         $this->resetAfterTest(true);
 
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['format' => 'grid']);
+        $course = $generator->create_course(['format' => 'moderngrid']);
 
         $courseformat = course_get_format($course);
         $ajaxsupport = $courseformat->supports_ajax();
@@ -294,7 +367,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid does not use indentation.
+     * Tests for format_moderngrid does not use indentation.
      *
      * @return void
      */
@@ -302,7 +375,7 @@ final class format_grid_test extends \advanced_testcase {
         $this->resetAfterTest(true);
 
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['format' => 'grid']);
+        $course = $generator->create_course(['format' => 'moderngrid']);
 
         $courseformat = course_get_format($course);
 
@@ -311,7 +384,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid::get_view_url.
+     * Tests for format_moderngrid::get_view_url.
      *
      * @return void
      */
@@ -321,7 +394,7 @@ final class format_grid_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(
-            ['numsections' => 3, 'format' => 'grid'],
+            ['numsections' => 3, 'format' => 'moderngrid'],
             ['createsections' => true]
         );
 
@@ -339,7 +412,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests that format_grid can update format options.
+     * Tests that format_moderngrid can update format options.
      *
      * @return void
      */
@@ -347,7 +420,7 @@ final class format_grid_test extends \advanced_testcase {
         $this->resetAfterTest(true);
 
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['format' => 'grid']);
+        $course = $generator->create_course(['format' => 'moderngrid']);
 
         $courseformat = course_get_format($course);
 
@@ -367,7 +440,7 @@ final class format_grid_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_grid page body class.
+     * Tests for format_moderngrid page body class.
      *
      * @return void
      */
@@ -375,10 +448,10 @@ final class format_grid_test extends \advanced_testcase {
         $this->resetAfterTest(true);
 
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['format' => 'grid']);
+        $course = $generator->create_course(['format' => 'moderngrid']);
 
         // The format class name indicates the format (format-grid is added by Moodle core).
         $courseformat = course_get_format($course);
-        $this->assertEquals('grid', $courseformat->get_format());
+        $this->assertEquals('moderngrid', $courseformat->get_format());
     }
 }

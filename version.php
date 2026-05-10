@@ -17,15 +17,15 @@
 /**
  * Version details for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2026050901;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2026051001;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2024100700;        // Requires Moodle 4.5+.
-$plugin->component = 'format_grid';     // Full name of the plugin.
+$plugin->component = 'format_moderngrid'; // Full name of the plugin.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.5.3';
+$plugin->release   = '1.0.0';

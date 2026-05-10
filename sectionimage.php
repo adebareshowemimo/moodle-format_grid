@@ -17,7 +17,7 @@
 /**
  * Section image upload page for Grid format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -39,18 +39,18 @@ require_capability('moodle/course:update', $context);
 $format = course_get_format($course);
 $sectionname = $format->get_section_name($section);
 
-$PAGE->set_url('/course/format/grid/sectionimage.php', ['id' => $sectionid, 'courseid' => $courseid]);
+$PAGE->set_url('/course/format/moderngrid/sectionimage.php', ['id' => $sectionid, 'courseid' => $courseid]);
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title(get_string('sectionimage', 'format_grid') . ': ' . $sectionname);
+$PAGE->set_title(get_string('sectionimage', 'format_moderngrid') . ': ' . $sectionname);
 $PAGE->set_heading($course->fullname);
 
-$PAGE->navbar->add(get_string('sectionimage', 'format_grid'));
+$PAGE->navbar->add(get_string('sectionimage', 'format_moderngrid'));
 
 /**
  * Section image form.
  */
-class format_grid_sectionimage_form extends moodleform {
+class format_moderngrid_sectionimage_form extends moodleform {
     /**
      * Form definition.
      */
@@ -68,7 +68,7 @@ class format_grid_sectionimage_form extends moodleform {
         $mform->addElement(
             'filemanager',
             'sectionimage',
-            get_string('sectionimage', 'format_grid'),
+            get_string('sectionimage', 'format_moderngrid'),
             null,
             [
                 'subdirs' => 0,
@@ -76,7 +76,7 @@ class format_grid_sectionimage_form extends moodleform {
                 'accepted_types' => ['web_image'],
             ]
         );
-        $mform->addHelpButton('sectionimage', 'sectionimage', 'format_grid');
+        $mform->addHelpButton('sectionimage', 'sectionimage', 'format_moderngrid');
 
         $this->add_action_buttons(true, get_string('savechanges'));
     }
@@ -90,14 +90,14 @@ $formdata = [
     'courseid' => $courseid,
 ];
 
-$mform = new format_grid_sectionimage_form(null, $formdata);
+$mform = new format_moderngrid_sectionimage_form(null, $formdata);
 
 // Get existing file.
 $draftitemid = file_get_submitted_draft_itemid('sectionimage');
 file_prepare_draft_area(
     $draftitemid,
     $context->id,
-    'format_grid',
+    'format_moderngrid',
     'sectionimage',
     $sectionid,
     ['subdirs' => 0, 'maxfiles' => 1]
@@ -112,27 +112,27 @@ if ($mform->is_cancelled()) {
     file_save_draft_area_files(
         $data->sectionimage,
         $context->id,
-        'format_grid',
+        'format_moderngrid',
         'sectionimage',
         $sectionid,
         ['subdirs' => 0, 'maxfiles' => 1]
     );
 
-    // Update the format_grid_images table.
-    $record = $DB->get_record('format_grid_images', [
+    // Update the format_moderngrid_images table.
+    $record = $DB->get_record('format_moderngrid_images', [
         'courseid' => $courseid,
         'sectionid' => $sectionid,
     ]);
 
     $fs = get_file_storage();
-    $files = $fs->get_area_files($context->id, 'format_grid', 'sectionimage', $sectionid, 'sortorder', false);
+    $files = $fs->get_area_files($context->id, 'format_moderngrid', 'sectionimage', $sectionid, 'sortorder', false);
     $file = reset($files);
 
     if ($file) {
         if ($record) {
             $record->image = $file->get_id();
             $record->timemodified = time();
-            $DB->update_record('format_grid_images', $record);
+            $DB->update_record('format_moderngrid_images', $record);
         } else {
             $record = new stdClass();
             $record->courseid = $courseid;
@@ -140,12 +140,12 @@ if ($mform->is_cancelled()) {
             $record->image = $file->get_id();
             $record->timecreated = time();
             $record->timemodified = time();
-            $DB->insert_record('format_grid_images', $record);
+            $DB->insert_record('format_moderngrid_images', $record);
         }
     } else {
         // No file uploaded, delete record if exists.
         if ($record) {
-            $DB->delete_records('format_grid_images', ['id' => $record->id]);
+            $DB->delete_records('format_moderngrid_images', ['id' => $record->id]);
         }
     }
 
@@ -156,7 +156,7 @@ if ($mform->is_cancelled()) {
 }
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('sectionimage', 'format_grid') . ': ' . $sectionname);
+echo $OUTPUT->heading(get_string('sectionimage', 'format_moderngrid') . ': ' . $sectionname);
 
 $mform->display();
 

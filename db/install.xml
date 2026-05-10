@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="course/format/grid/db" VERSION="20260222" COMMENT="Database schema for format_grid">
+<XMLDB PATH="course/format/moderngrid/db" VERSION="20260222" COMMENT="Database schema for format_moderngrid">
   <TABLES>
-    <TABLE NAME="format_grid_images" COMMENT="Stores section image references for the grid format">
+    <TABLE NAME="format_moderngrid_images" COMMENT="Stores section image references for the grid format">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course ID"/>

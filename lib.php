@@ -17,7 +17,7 @@
 /**
  * Grid course format main class.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,11 +30,11 @@ use core\output\inplace_editable;
 /**
  * Main class for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_grid extends core_courseformat\base {
+class format_moderngrid extends core_courseformat\base {
     /**
      * Returns true if this course format uses sections.
      *
@@ -100,9 +100,9 @@ class format_grid extends core_courseformat\base {
     public function get_default_section_name($section) {
         $section = $this->get_section($section);
         if ($section->sectionnum == 0) {
-            return get_string('section0name', 'format_grid');
+            return get_string('section0name', 'format_moderngrid');
         }
-        return get_string('sectionname', 'format_grid') . ' ' . $section->sectionnum;
+        return get_string('sectionname', 'format_moderngrid') . ' ' . $section->sectionnum;
     }
 
     /**
@@ -189,14 +189,14 @@ class format_grid extends core_courseformat\base {
             if ($sectionid) {
                 $context = context_course::instance($this->courseid);
 
-                $mform->addElement('header', 'gridimagehdr', get_string('sectionimage', 'format_grid'));
+                $mform->addElement('header', 'gridimagehdr', get_string('sectionimage', 'format_moderngrid'));
 
                 // Prepare draft area.
                 $draftitemid = file_get_submitted_draft_itemid('sectionimage');
                 file_prepare_draft_area(
                     $draftitemid,
                     $context->id,
-                    'format_grid',
+                    'format_moderngrid',
                     'sectionimage',
                     $sectionid,
                     ['subdirs' => 0, 'maxfiles' => 1]
@@ -205,7 +205,7 @@ class format_grid extends core_courseformat\base {
                 $mform->addElement(
                     'filemanager',
                     'sectionimage',
-                    get_string('uploadsectionimage', 'format_grid'),
+                    get_string('uploadsectionimage', 'format_moderngrid'),
                     null,
                     [
                         'subdirs' => 0,
@@ -213,7 +213,7 @@ class format_grid extends core_courseformat\base {
                         'accepted_types' => ['web_image'],
                     ]
                 );
-                $mform->addHelpButton('sectionimage', 'sectionimage', 'format_grid');
+                $mform->addHelpButton('sectionimage', 'sectionimage', 'format_moderngrid');
                 $mform->setDefault('sectionimage', $draftitemid);
             }
         }
@@ -243,27 +243,27 @@ class format_grid extends core_courseformat\base {
             file_save_draft_area_files(
                 $data['sectionimage'],
                 $context->id,
-                'format_grid',
+                'format_moderngrid',
                 'sectionimage',
                 $sectionid,
                 ['subdirs' => 0, 'maxfiles' => 1]
             );
 
-            // Update the format_grid_images table.
-            $record = $DB->get_record('format_grid_images', [
+            // Update the format_moderngrid_images table.
+            $record = $DB->get_record('format_moderngrid_images', [
                 'courseid' => $this->courseid,
                 'sectionid' => $sectionid,
             ]);
 
             $fs = get_file_storage();
-            $files = $fs->get_area_files($context->id, 'format_grid', 'sectionimage', $sectionid, 'sortorder', false);
+            $files = $fs->get_area_files($context->id, 'format_moderngrid', 'sectionimage', $sectionid, 'sortorder', false);
             $file = reset($files);
 
             if ($file) {
                 if ($record) {
                     $record->image = $file->get_id();
                     $record->timemodified = time();
-                    $DB->update_record('format_grid_images', $record);
+                    $DB->update_record('format_moderngrid_images', $record);
                 } else {
                     $record = new stdClass();
                     $record->courseid = $this->courseid;
@@ -271,12 +271,12 @@ class format_grid extends core_courseformat\base {
                     $record->image = $file->get_id();
                     $record->timecreated = time();
                     $record->timemodified = time();
-                    $DB->insert_record('format_grid_images', $record);
+                    $DB->insert_record('format_moderngrid_images', $record);
                 }
             } else {
                 // No file, delete record if exists.
                 if ($record) {
-                    $DB->delete_records('format_grid_images', ['id' => $record->id]);
+                    $DB->delete_records('format_moderngrid_images', ['id' => $record->id]);
                 }
             }
         }
@@ -345,24 +345,24 @@ class format_grid extends core_courseformat\base {
         if ($foreditform && !isset($courseformatoptions['gridcolumns']['label'])) {
             $courseformatoptionsedit = [
                 'gridcolumns' => [
-                    'label' => new lang_string('gridcolumns', 'format_grid'),
+                    'label' => new lang_string('gridcolumns', 'format_moderngrid'),
                     'help' => 'gridcolumns',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
-                            2 => '2 ' . get_string('columns', 'format_grid'),
-                            3 => '3 ' . get_string('columns', 'format_grid'),
-                            4 => '4 ' . get_string('columns', 'format_grid'),
-                            5 => '5 ' . get_string('columns', 'format_grid'),
-                            6 => '6 ' . get_string('columns', 'format_grid'),
+                            2 => '2 ' . get_string('columns', 'format_moderngrid'),
+                            3 => '3 ' . get_string('columns', 'format_moderngrid'),
+                            4 => '4 ' . get_string('columns', 'format_moderngrid'),
+                            5 => '5 ' . get_string('columns', 'format_moderngrid'),
+                            6 => '6 ' . get_string('columns', 'format_moderngrid'),
                         ],
                     ],
                 ],
                 'showsectiontitles' => [
-                    'label' => new lang_string('showsectiontitles', 'format_grid'),
+                    'label' => new lang_string('showsectiontitles', 'format_moderngrid'),
                     'help' => 'showsectiontitles',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
@@ -372,9 +372,9 @@ class format_grid extends core_courseformat\base {
                     ],
                 ],
                 'showsectionsummary' => [
-                    'label' => new lang_string('showsectionsummary', 'format_grid'),
+                    'label' => new lang_string('showsectionsummary', 'format_moderngrid'),
                     'help' => 'showsectionsummary',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
@@ -384,9 +384,9 @@ class format_grid extends core_courseformat\base {
                     ],
                 ],
                 'showactivitiescount' => [
-                    'label' => new lang_string('showactivitiescount', 'format_grid'),
+                    'label' => new lang_string('showactivitiescount', 'format_moderngrid'),
                     'help' => 'showactivitiescount',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
@@ -396,9 +396,9 @@ class format_grid extends core_courseformat\base {
                     ],
                 ],
                 'showprogressbar' => [
-                    'label' => new lang_string('showprogressbar', 'format_grid'),
+                    'label' => new lang_string('showprogressbar', 'format_moderngrid'),
                     'help' => 'showprogressbar',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
@@ -408,9 +408,9 @@ class format_grid extends core_courseformat\base {
                     ],
                 ],
                 'showcompletionrow' => [
-                    'label' => new lang_string('showcompletionrow', 'format_grid'),
+                    'label' => new lang_string('showcompletionrow', 'format_moderngrid'),
                     'help' => 'showcompletionrow',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
@@ -420,61 +420,61 @@ class format_grid extends core_courseformat\base {
                     ],
                 ],
                 'sectioncardstyle' => [
-                    'label' => new lang_string('sectioncardstyle', 'format_grid'),
+                    'label' => new lang_string('sectioncardstyle', 'format_moderngrid'),
                     'help' => 'sectioncardstyle',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
-                            'card' => get_string('cardstyle_card', 'format_grid'),
-                            'overlay' => get_string('cardstyle_overlay', 'format_grid'),
-                            'minimal' => get_string('cardstyle_minimal', 'format_grid'),
+                            'card' => get_string('cardstyle_card', 'format_moderngrid'),
+                            'overlay' => get_string('cardstyle_overlay', 'format_moderngrid'),
+                            'minimal' => get_string('cardstyle_minimal', 'format_moderngrid'),
                         ],
                     ],
                 ],
                 'imageaspectratio' => [
-                    'label' => new lang_string('imageaspectratio', 'format_grid'),
+                    'label' => new lang_string('imageaspectratio', 'format_moderngrid'),
                     'help' => 'imageaspectratio',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
-                            '1:1' => get_string('aspectratio_1_1', 'format_grid'),
-                            '4:3' => get_string('aspectratio_4_3', 'format_grid'),
-                            '16:9' => get_string('aspectratio_16_9', 'format_grid'),
-                            '21:9' => get_string('aspectratio_21_9', 'format_grid'),
+                            '1:1' => get_string('aspectratio_1_1', 'format_moderngrid'),
+                            '4:3' => get_string('aspectratio_4_3', 'format_moderngrid'),
+                            '16:9' => get_string('aspectratio_16_9', 'format_moderngrid'),
+                            '21:9' => get_string('aspectratio_21_9', 'format_moderngrid'),
                         ],
                     ],
                 ],
                 'section0display' => [
-                    'label' => new lang_string('section0display', 'format_grid'),
+                    'label' => new lang_string('section0display', 'format_moderngrid'),
                     'help' => 'section0display',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
-                            'default' => get_string('section0display_default', 'format_grid'),
-                            'card' => get_string('section0display_card', 'format_grid'),
-                            'hidden' => get_string('section0display_hidden', 'format_grid'),
+                            'default' => get_string('section0display_default', 'format_moderngrid'),
+                            'card' => get_string('section0display_card', 'format_moderngrid'),
+                            'hidden' => get_string('section0display_hidden', 'format_moderngrid'),
                         ],
                     ],
                 ],
                 'courseindexdefault' => [
-                    'label' => new lang_string('courseindexdefault', 'format_grid'),
+                    'label' => new lang_string('courseindexdefault', 'format_moderngrid'),
                     'help' => 'courseindexdefault',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
-                            1 => get_string('courseindexdefault_open', 'format_grid'),
-                            0 => get_string('courseindexdefault_collapsed', 'format_grid'),
+                            1 => get_string('courseindexdefault_open', 'format_moderngrid'),
+                            0 => get_string('courseindexdefault_collapsed', 'format_moderngrid'),
                         ],
                     ],
                 ],
                 'hidesecondarynavigation' => [
-                    'label' => new lang_string('hidesecondarynavigation', 'format_grid'),
+                    'label' => new lang_string('hidesecondarynavigation', 'format_moderngrid'),
                     'help' => 'hidesecondarynavigation',
-                    'help_component' => 'format_grid',
+                    'help_component' => 'format_moderngrid',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
@@ -515,8 +515,8 @@ class format_grid extends core_courseformat\base {
 
         $context = context_course::instance($this->courseid);
 
-        // First, check for a custom format_grid section image.
-        $record = $DB->get_record('format_grid_images', [
+        // First, check for a custom format_moderngrid section image.
+        $record = $DB->get_record('format_moderngrid_images', [
             'courseid' => $this->courseid,
             'sectionid' => $sectionid,
         ]);
@@ -525,7 +525,7 @@ class format_grid extends core_courseformat\base {
             $fs = get_file_storage();
             $files = $fs->get_area_files(
                 $context->id,
-                'format_grid',
+                'format_moderngrid',
                 'sectionimage',
                 $sectionid,
                 'sortorder DESC, id ASC',
@@ -616,7 +616,34 @@ class format_grid extends core_courseformat\base {
 }
 
 /**
- * Serve the files from the format_grid file areas.
+ * Implements callback inplace_editable() allowing section names to be edited in-place.
+ *
+ * @param string $itemtype Item type.
+ * @param int $itemid Section id.
+ * @param mixed $newvalue New section name.
+ * @return inplace_editable|null
+ */
+function format_moderngrid_inplace_editable($itemtype, $itemid, $newvalue) {
+    global $DB, $CFG;
+
+    require_once($CFG->dirroot . '/course/lib.php');
+
+    if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
+        $section = $DB->get_record_sql(
+            'SELECT s.*
+               FROM {course_sections} s
+               JOIN {course} c ON s.course = c.id
+              WHERE s.id = ? AND c.format = ?',
+            [$itemid, 'moderngrid'],
+            MUST_EXIST
+        );
+
+        return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
+    }
+}
+
+/**
+ * Serve the files from the format_moderngrid file areas.
  *
  * @param stdClass $course
  * @param stdClass $cm
@@ -627,7 +654,7 @@ class format_grid extends core_courseformat\base {
  * @param array $options
  * @return bool
  */
-function format_grid_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []): bool {
+function format_moderngrid_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []): bool {
     if ($context->contextlevel != CONTEXT_COURSE) {
         return false;
     }
@@ -643,7 +670,7 @@ function format_grid_pluginfile($course, $cm, $context, $filearea, $args, $force
     $filename = array_pop($args);
     $filepath = $args ? '/' . implode('/', $args) . '/' : '/';
 
-    $file = $fs->get_file($context->id, 'format_grid', $filearea, $sectionid, $filepath, $filename);
+    $file = $fs->get_file($context->id, 'format_moderngrid', $filearea, $sectionid, $filepath, $filename);
     if (!$file || $file->is_directory()) {
         return false;
     }

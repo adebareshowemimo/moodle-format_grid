@@ -17,12 +17,12 @@
 /**
  * Renderer for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid\output;
+namespace format_moderngrid\output;
 
 use core_courseformat\output\section_renderer;
 use plugin_renderer_base;
@@ -30,7 +30,7 @@ use plugin_renderer_base;
 /**
  * Renderer class for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -45,7 +45,7 @@ class renderer extends section_renderer {
      * @return string HTML fragment
      */
     public function section_title($section, $course, $onsectionpage = false, $sectionreturn = null) {
-        return get_section_name($course, $section);
+        return $this->render(course_get_format($course)->inplace_editable_render_section_name($section));
     }
 
     /**
@@ -56,6 +56,6 @@ class renderer extends section_renderer {
      * @return string HTML fragment
      */
     public function section_title_without_link($section, $course) {
-        return get_section_name($course, $section);
+        return $this->render(course_get_format($course)->inplace_editable_render_section_name($section, false));
     }
 }

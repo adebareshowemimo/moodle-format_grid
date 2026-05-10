@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Hook callback registrations for format_grid.
+ * Hook callback registrations for format_moderngrid.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,10 +27,10 @@ defined('MOODLE_INTERNAL') || die();
 $callbacks = [
     [
         'hook' => \core\hook\output\after_standard_main_region_html_generation::class,
-        'callback' => [\format_grid\hook_callbacks::class, 'inject_activity_nav'],
+        'callback' => [\format_moderngrid\hook_callbacks::class, 'inject_activity_nav'],
     ],
     [
         'hook' => \core_course\hook\before_course_viewed::class,
-        'callback' => [\format_grid\hook_callbacks::class, 'maybe_hide_secondary_nav'],
+        'callback' => [\format_moderngrid\hook_callbacks::class, 'maybe_hide_secondary_nav'],
     ],
 ];

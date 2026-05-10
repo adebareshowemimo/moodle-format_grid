@@ -21,7 +21,7 @@
  * all complete. Re-evaluates whenever a section's state changes (e.g. when
  * an activity is marked complete).
  *
- * @module     format_grid/courseindex_completion
+ * @module     format_moderngrid/courseindex_completion
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -39,7 +39,7 @@ let iconPromise = null;
 
 const getLabel = () => {
     if (!labelPromise) {
-        labelPromise = getString('sectioncomplete', 'format_grid');
+        labelPromise = getString('sectioncomplete', 'format_moderngrid');
     }
     return labelPromise;
 };
@@ -54,7 +54,7 @@ const getIconHtml = () => {
 export default class Component extends BaseComponent {
 
     create() {
-        this.name = 'format_grid_courseindex_completion';
+        this.name = 'format_moderngrid_courseindex_completion';
         this.selectors = {
             SECTION: '[data-for="section"]',
             SECTION_TITLE: '.courseindex-section-title',
@@ -65,7 +65,7 @@ export default class Component extends BaseComponent {
     static init(target) {
         const element = document.querySelector(target || '#course-index');
         if (!element) {
-            log.debug('format_grid/courseindex_completion: course index not found');
+            log.debug('format_moderngrid/courseindex_completion: course index not found');
             return null;
         }
         return new this({

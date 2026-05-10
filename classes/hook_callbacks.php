@@ -15,18 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Hook callbacks for format_grid.
+ * Hook callbacks for format_moderngrid.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid;
+namespace format_moderngrid;
 
 use core\hook\output\after_standard_main_region_html_generation;
 use core_course\hook\before_course_viewed;
-use format_grid\local\activity_nav;
+use format_moderngrid\local\activity_nav;
 
 /**
  * Static callbacks registered via db/hooks.php.
@@ -45,7 +45,7 @@ class hook_callbacks {
     public static function maybe_hide_secondary_nav(before_course_viewed $hook): void {
         global $PAGE;
         $course = $hook->course;
-        if (empty($course->format) || $course->format !== 'grid') {
+        if (empty($course->format) || $course->format !== 'moderngrid') {
             return;
         }
         $options = course_get_format($course)->get_format_options();
@@ -89,7 +89,7 @@ class hook_callbacks {
 
         // Grid format only.
         $format = course_get_format($PAGE->course);
-        if (!$format || $format->get_format() !== 'grid') {
+        if (!$format || $format->get_format() !== 'moderngrid') {
             return;
         }
 
@@ -121,14 +121,14 @@ class hook_callbacks {
         ];
 
         try {
-            $html = $OUTPUT->render_from_template('format_grid/activity_nav', $data);
+            $html = $OUTPUT->render_from_template('format_moderngrid/activity_nav', $data);
         } catch (\Throwable $e) {
             // Don't let a render error break the activity page.
             return;
         }
 
         if ($lock) {
-            $PAGE->requires->js_call_amd('format_grid/activity_nav', 'init', [[
+            $PAGE->requires->js_call_amd('format_moderngrid/activity_nav', 'init', [[
                 'incomplete' => array_values($incomplete),
             ]]);
         }

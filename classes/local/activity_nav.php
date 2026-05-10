@@ -17,12 +17,12 @@
 /**
  * Activity-page navigation helper for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid\local;
+namespace format_moderngrid\local;
 
 use cm_info;
 use completion_info;

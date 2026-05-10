@@ -16,7 +16,7 @@
  *
  * Grid format JavaScript module.
  *
- * @module     format_grid/grid
+ * @module     format_moderngrid/grid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,7 +34,7 @@ export default class Component extends BaseComponent {
      * Constructor hook.
      */
     create() {
-        this.name = 'format_grid';
+        this.name = 'format_moderngrid';
         this.selectors = {
             GRID_CONTAINER: '[data-region="format-grid"]',
             SECTION_CARD: '[data-region="section-card"]',

@@ -20,15 +20,15 @@
  * Adds section completion data so the course index can render a checkmark
  * next to fully-complete sections.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid\output\courseformat\state;
+namespace format_moderngrid\output\courseformat\state;
 
 use core_courseformat\output\local\state\section as section_base;
-use format_grid\output\courseformat\section_completion_trait;
+use format_moderngrid\output\courseformat\section_completion_trait;
 use stdClass;
 
 /**

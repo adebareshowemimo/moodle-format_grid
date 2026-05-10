@@ -17,12 +17,12 @@
 /**
  * Content output class for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid\output\courseformat;
+namespace format_moderngrid\output\courseformat;
 
 use core_courseformat\output\local\content as content_base;
 use renderer_base;
@@ -31,7 +31,7 @@ use stdClass;
 /**
  * Content output class for the Grid format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -46,7 +46,7 @@ class content extends content_base {
      * @return string
      */
     public function get_template_name(\renderer_base $renderer): string {
-        return 'format_grid/local/content';
+        return 'format_moderngrid/local/content';
     }
 
     /**
@@ -104,12 +104,12 @@ class content extends content_base {
         $data->gridclass = $columnclasses[$gridcolumns] ?? $columnclasses[3];
 
         // Admin-configurable colours for completion indicators.
-        $badgebg = get_config('format_grid', 'completebadgebgcolor');
-        $badgetext = get_config('format_grid', 'completebadgetextcolor');
-        $progresscolor = get_config('format_grid', 'progressbarcolor');
-        $notstartedcolor = get_config('format_grid', 'notstartedcolor');
-        $inprogresscolor = get_config('format_grid', 'inprogresscolor');
-        $completecolor = get_config('format_grid', 'completecolor');
+        $badgebg = get_config('format_moderngrid', 'completebadgebgcolor');
+        $badgetext = get_config('format_moderngrid', 'completebadgetextcolor');
+        $progresscolor = get_config('format_moderngrid', 'progressbarcolor');
+        $notstartedcolor = get_config('format_moderngrid', 'notstartedcolor');
+        $inprogresscolor = get_config('format_moderngrid', 'inprogresscolor');
+        $completecolor = get_config('format_moderngrid', 'completecolor');
         $data->completebadgebg = !empty($badgebg) ? $badgebg : '#28a745';
         $data->completebadgetext = !empty($badgetext) ? $badgetext : '#ffffff';
         $data->progressbarcolor = !empty($progresscolor) ? $progresscolor : '#28a745';
@@ -118,15 +118,15 @@ class content extends content_base {
         $data->completecolor = !empty($completecolor) ? $completecolor : '#22c55e';
 
         // Add AMD module for grid functionality.
-        $PAGE->requires->js_call_amd('format_grid/grid', 'init', ['[data-region="format-grid"]']);
+        $PAGE->requires->js_call_amd('format_moderngrid/grid', 'init', ['[data-region="format-grid"]']);
 
         // Inject section-complete checkmarks into the course index drawer.
-        $PAGE->requires->js_call_amd('format_grid/courseindex_completion', 'init');
+        $PAGE->requires->js_call_amd('format_moderngrid/courseindex_completion', 'init');
 
         // Collapse course index drawer by default if configured.
         $courseindexdefault = $format->get_format_options()['courseindexdefault'] ?? 1;
         if (!$courseindexdefault) {
-            $PAGE->requires->js_call_amd('format_grid/courseindex', 'init');
+            $PAGE->requires->js_call_amd('format_moderngrid/courseindex', 'init');
         }
 
         return $data;

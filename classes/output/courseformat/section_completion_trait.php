@@ -17,12 +17,12 @@
 /**
  * Shared section completion calculation for the Grid course format.
  *
- * @package    format_grid
+ * @package    format_moderngrid
  * @copyright  2026 Adebare Showemimo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_grid\output\courseformat;
+namespace format_moderngrid\output\courseformat;
 
 use cm_info;
 use completion_info;
